@@ -14,12 +14,6 @@ export default function btn(props) {
             onPress={ () => { onClick(color); setDisplayImage(!displayImage) } }
             accessibilityLabel={ accessibilityLabel ? accessibilityLabel : btnTitle }
         />
-        { displayImage && 
-            <Image 
-                source={ require('../../assets/giflol.gif') }
-                style = {{ width: 400, height: 200 }}    
-            />
-        }
      </>
   );
 }

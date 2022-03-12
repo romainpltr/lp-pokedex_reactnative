@@ -5,7 +5,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { getPokemon } from '../../api/getPokemons';
 import PokemonCard from '../molecules/PokemonCard';
 
-function PokemonsList() {
+function PokemonsList({ navigation }) {
   const [listPokemons, setListPokemons] = useState([]);
   const [nextPage, setNextPage] = useState('https://pokeapi.co/api/v2/pokemon');
   const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +29,7 @@ function PokemonsList() {
   }
 
   const renderItem = useCallback(({ item }) => (
-    <PokemonCard style={styles.PokemonCard} name={item.name} link={item.url} />
+    <PokemonCard style={styles.PokemonCard} navigation={navigation} name={item.name} link={item.url} />
   ), [])
 
   const keyExtractor = useCallback((item) => item.name);
@@ -67,8 +67,7 @@ const styles = StyleSheet.create({
   },
   pokemonGrid: {
     display: 'flex',
-    backgroundColor: '#e06666',
-    marginTop: 20,
+    backgroundColor: '#533E85',
   }
 });
 

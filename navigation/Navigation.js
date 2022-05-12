@@ -8,7 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import PokemonsList from "../components/organisms/PokemonList";
 import PokemonDetails from "../components/organisms/PokemonDetails";
-
+import MyTeam from "../components/organisms/MyTeam";
 const stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -38,6 +38,12 @@ export default function Navigation(){
                       : 'ios-home-outline';
                   }
 
+                  if(route.name === 'Mon équipe'){
+                    iconName = focused
+                      ? 'ios-people'
+                      : 'ios-people-outline';
+                  }
+
                   if (route.name === 'Liste des Pokémons') {
                     iconName = focused
                       ? 'ios-list'
@@ -60,7 +66,7 @@ export default function Navigation(){
 
             <Tab.Screen name="Accueil" component={PokemonStack}/>
             <Tab.Screen name="Rechercher" component={PokemonStack}/>
-            <Tab.Screen name="Liste des Pokémons" component={PokemonStack}/>
+            <Tab.Screen name="Mon équipe" component={MyTeam}/>
         </Tab.Navigator>
     </NavigationContainer>
     )

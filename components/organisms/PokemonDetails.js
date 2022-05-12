@@ -1,20 +1,61 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, FlatList, View, ScrollView, Text } from 'react-native';
+import { StyleSheet, FlatList, View, ScrollView, Text, Button } from 'react-native';
 import { useEffect, useState, useCallback } from 'react';
-
-function PokemonDetails({route, navigation}) {
+import { setDataStorageItem, getDataStorageItem, eraseDataStorageItem } from '../../services/asyncStorage'
+import { useIsFocused } from '@react-navigation/native';
+function PokemonDetails({route, navigation, props}) {
+    const [team, setTeam] = useState([]);
+    const [isInTeam, setIsInTeam] = useState(false);
+    const isFocused = useIsFocused();
     // Capitalize
     const capitalize = (s) => {
         if (typeof s !== 'string') return ''
         return s.charAt(0).toUpperCase() + s.slice(1)
     }
-    // navigator title
     navigation.setOptions({
-        title: capitalize(route.params.data.name),
+        title: capitalize(route.params.data?.name),
     });
+     
+    useEffect(() => { 
+        getDataStorageItem('@myTeam').then((result) => {
+            setTeam(result ?? []);
+            result.find((item) => {
+                if(item.name === route.params.data.name){
+                    setIsInTeam(true);
+                }
+            })
+        })
+
+    }, [isFocused])
+
+    const addToTeam = () => {
+        if(isTeamFull){
+            alert('Your team is full');
+        }else{
+            setIsInTeam(true)
+            setDataStorageItem('@myTeam', JSON.stringify([route.params.data, ...team]))
+        }
+    }
+
+    const removeFromTeam = () => {
+        setIsInTeam(false)
+        // Remove from team
+        const newTeam = team.filter(item => item.name !== route.params.data.name)
+        console.log(newTeam);
+        setDataStorageItem('@myTeam', JSON.stringify(newTeam))
+
+    }
+
+    // PokemonTeam is inferior to 6 
+    function isTeamFull(){
+        console.log('TEAM',team.length);
+        if(team.length <= 6){
+            return false;
+        }
+    }
     
     // props
-    const { data } = route.params;
+    const { data } = route.params ?? item;
     // Maps
     const Abilities = data.abilities.map((item, index) => {
         return (
@@ -33,6 +74,9 @@ function PokemonDetails({route, navigation}) {
 
     return (
         <ScrollView style={styles.container}>
+            
+            { isInTeam ? <Button title="Remove from team" onPress={removeFromTeam} /> : <Button title="Add to team" onPress={addToTeam}   />}
+        
             <View style={styles.abilities}>
                 { Abilities }
             </View>

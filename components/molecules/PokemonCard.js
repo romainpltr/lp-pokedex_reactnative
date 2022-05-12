@@ -5,7 +5,7 @@ import { useEffect, useState, memo } from 'react';
 function PokemonsCard(props) {
   const [pokemonData, setPokemonData] = useState();
   const [loadingPokemonData, setLoadingPokemonData] = useState(true);
-  const { name, link, navigation } = props;
+  const { name, link, navigation, item } = props;
   const getPokemonItem = () => fetch(link)
       .then((response) => response.json())
       .catch((error) => console.log('error', error));
@@ -24,7 +24,7 @@ function PokemonsCard(props) {
   }, []);
 
   const onTouch = () => {
-    navigation.navigate('PokemonDetails', { data: pokemonData });
+    navigation.navigate('PokemonDetails', { data: pokemonData ?? item });
   }
 
   if(loadingPokemonData){
@@ -34,7 +34,7 @@ function PokemonsCard(props) {
   return (
       <View style={styles.container}>
         <TouchableOpacity onPress={onTouch}>
-          <Image source={{uri: pokemonData.sprites.front_default}} style={{width: 100, height: 100}}/>
+          <Image source={{uri: pokemonData?.sprites.front_default ?? item.sprites.front_default}} style={{width: 100, height: 100}}/>
           <Text style={styles.text}>{name}</Text>
         </TouchableOpacity>
       </View>

@@ -65,6 +65,9 @@ const styles = StyleSheet.create({
   PokemonCard: {
 
   },
+  loader: {
+    width: 100
+  },
   pokemonGrid: {
     display: 'flex',
     backgroundColor: '#533E85',

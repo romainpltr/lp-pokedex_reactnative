@@ -9,16 +9,25 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import PokemonsList from "../components/organisms/PokemonList";
 import PokemonDetails from "../components/organisms/PokemonDetails";
 import MyTeam from "../components/organisms/MyTeam";
+import PokemonSearch from "../components/organisms/PokemonSearch";
 const stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 
 
-function PokemonStack(){
+function PokemonListStack(){
     return(
         <stack.Navigator initialRouteName="Accueil">     
             <stack.Screen name="Accueil" component={PokemonsList} options={{ title: 'Liste des Pokémons' }}/>
             <stack.Screen name="PokemonDetails" component={PokemonDetails} />
+        </stack.Navigator>
+    )
+}
+
+function PokemonSearchStack(){
+    return(
+        <stack.Navigator initialRouteName="Recherche">     
+            <stack.Screen name="Recherche de Pokémons" component={PokemonSearch} />
         </stack.Navigator>
     )
 }
@@ -31,13 +40,6 @@ export default function Navigation(){
                 headerShown: false,
                 tabBarIcon: ({ focused, color, size }) => {
                   let iconName;
-      
-                  if (route.name === 'Accueil') {
-                    iconName = focused
-                      ? 'ios-home'
-                      : 'ios-home-outline';
-                  }
-
                   if(route.name === 'Mon équipe'){
                     iconName = focused
                       ? 'ios-people'
@@ -64,8 +66,8 @@ export default function Navigation(){
               })}
         >
 
-            <Tab.Screen name="Accueil" component={PokemonStack}/>
-            <Tab.Screen name="Rechercher" component={PokemonStack}/>
+            <Tab.Screen name="Liste des Pokémons" component={PokemonListStack}/>
+            <Tab.Screen name="Rechercher" component={PokemonSearchStack}/>
             <Tab.Screen name="Mon équipe" component={MyTeam}/>
         </Tab.Navigator>
     </NavigationContainer>

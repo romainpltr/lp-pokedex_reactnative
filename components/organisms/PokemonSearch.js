@@ -11,10 +11,10 @@ import { getPokemonByName } from '../../api/getPokemons';
 function PokemonSearch(){
     const [pokemon, setPokemon] = useState([]);
     const [pokemonName, setPokemonName] = useState('');
-
     function searchPokemon(){
         getPokemonByName(pokemonName.toLowerCase()).then((datas) => {
             if(datas !== undefined){
+                console.log(datas.abilities)
                 setPokemon(datas);
             }else{
                 setPokemon([]);
@@ -23,6 +23,7 @@ function PokemonSearch(){
     }
     return (
         <View style={styles.pokemonGrid}>
+            <StatusBar style="auto" />
             <TextInput
                 style={styles.input}
                 placeholder="Charizard"
@@ -44,21 +45,17 @@ function PokemonSearch(){
                         <View style={styles.imageBoxRight}>
                             <Text>Type :  {pokemon.types.map((type, index) => {
                                     return (
-                                        <Text>{type.type.name} </Text>
+                                        <Text key={index}>{type.type.name} </Text>
                                     )
                                 })}</Text>
                             <View>
-
                             </View>
                             <Text>Habilities : </Text>
-                            <FlatList
-                                data={pokemon.abilities}
-                                keyExtractor={(item, index) => index.toString()} 
-                                renderItem={({item}) => (
-                                    <Text>{item.ability.name}</Text>
-                                )}
-                            />
-
+                            {pokemon.abilities.map((ability, index) => {
+                                return (
+                                    <Text>{ability.ability.name} </Text>
+                                )
+                            })}
                         </View>
                     </View>
                 </View>
